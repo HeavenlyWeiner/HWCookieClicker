@@ -1,0 +1,516 @@
+# +----------------------------------------------------+
+# <                   CookieClicker                    >
+# +----------------------------------------------------+
+
+# Database
+MySQL: false
+
+# Synchronization duration in minutes
+Cache synchronization: 10
+
+# Holograms
+Clicker holograms: true
+
+# Sounds
+Sounds: true
+
+# Resettimer duration in minutes
+Resettimer: 60
+
+# Protections
+Maximum CPS: 15
+AFK cooldown seconds: 15
+
+# Cookie Explosion
+Cookie amount: 20
+Explosion duration seconds: 30
+Cookies per cookie multiplier: 10
+
+# Golden Cookie
+Golden duration seconds: 60
+Per click multiplier: 2
+
+# Event chance - one of range
+Golden cookie range: 10000
+Cookie explosion range: 5000
+
+# Inventories
+items:
+  home:
+    per_click:
+      item_type: LIME_TERRACOTTA
+      slot: 20
+    cookies:
+      item_type: BROWN_TERRACOTTA
+      slot: 13
+    shop:
+      item_type: PINK_TERRACOTTA
+      slot: 24
+    design:
+      item_type: COOKIE
+      slot: 31
+  design:
+    block_design:
+      item_type: PRISMARINE
+      slot: 11
+    hit_particle_design:
+      item_type: DRAGON_BREATH
+      slot: 13
+    menu_design:
+      item_type: PAINTING
+      slot: 15
+    last_page:
+      item_type: PLAYER_HEAD
+      slot: 18
+  block_design:
+    per_click:
+      item_type: LIME_TERRACOTTA
+      slot: 2
+    cookies:
+      item_type: BROWN_TERRACOTTA
+      slot: 6
+    next_page:
+      item_type: PLAYER_HEAD
+      slot: 35
+    last_page:
+      item_type: PLAYER_HEAD
+      slot: 27
+  hit_particle_design:
+    per_click:
+      item_type: LIME_TERRACOTTA
+      slot: 2
+    cookies:
+      item_type: BROWN_TERRACOTTA
+      slot: 6
+    next_page:
+      item_type: PLAYER_HEAD
+      slot: 35
+    last_page:
+      item_type: PLAYER_HEAD
+      slot: 27
+  menu_design:
+    per_click:
+      item_type: LIME_TERRACOTTA
+      slot: 2
+    cookies:
+      item_type: BROWN_TERRACOTTA
+      slot: 6
+    next_page:
+      item_type: PLAYER_HEAD
+      slot: 44
+    last_page:
+      item_type: PLAYER_HEAD
+      slot: 36
+  shop:
+    per_click:
+      item_type: LIME_TERRACOTTA
+      slot: 2
+    cookies:
+      item_type: BROWN_TERRACOTTA
+      slot: 6
+    next_page:
+      item_type: PLAYER_HEAD
+      slot: 35
+    premium_page:
+      item_type: PLAYER_HEAD
+      slot: 35
+    last_page:
+      item_type: PLAYER_HEAD
+      slot: 27
+  premium_shop:
+    per_click:
+      item_type: LIME_TERRACOTTA
+      slot: 2
+    cookies:
+      item_type: BROWN_TERRACOTTA
+      slot: 6
+    next_page:
+      item_type: PLAYER_HEAD
+      slot: 35
+    last_page:
+      item_type: PLAYER_HEAD
+      slot: 27
+
+# Shop
+options:
+  default_shop:
+    rows: 4
+    start_slot: 19
+    stop_slot: 26
+    skipped_slots:
+      - 0
+  premium_shop:
+    rows: 4
+    start_slot: 19
+    stop_slot: 26
+    skipped_slots:
+      - 0
+  block_design_shop:
+    rows: 4
+    start_slot: 19
+    stop_slot: 26
+    skipped_slots:
+      - 0
+  hit_particle_design_shop:
+    rows: 4
+    start_slot: 20
+    stop_slot: 25
+    skipped_slots:
+      - 0
+  menu_design_shop:
+    rows: 5
+    start_slot: 13
+    stop_slot: 36
+    skipped_slots:
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 26
+
+default_shop:
+  1:
+    item_type: GOLDEN_HOE
+    base_price: 30
+    price_multiplier: 2.0
+    add_clicks: 2
+  2:
+    item_type: IRON_AXE
+    base_price: 360
+    price_multiplier: 2.0
+    add_clicks: 4
+  3:
+    item_type: DIAMOND_PICKAXE
+    base_price: 690
+    price_multiplier: 1.5
+    add_clicks: 6
+  4:
+    item_type: DIAMOND
+    base_price: 920
+    price_multiplier: 1.5
+    add_clicks: 8
+  5:
+    item_type: GOLD_BLOCK
+    base_price: 1250
+    price_multiplier: 1.5
+    add_clicks: 10
+  6:
+    item_type: IRON_SHOVEL
+    base_price: 1580
+    price_multiplier: 1.5
+    add_clicks: 12
+  7:
+    item_type: ENDER_PEARL
+    base_price: 1910
+    price_multiplier: 1.5
+    add_clicks: 14
+
+premium_shop:
+  1:
+    item_type: BLAZE_ROD
+    base_price: 2240
+    price_multiplier: 2.0
+    add_clicks: 16
+  2:
+    item_type: IRON_INGOT
+    base_price: 2570
+    price_multiplier: 2.0
+    add_clicks: 18
+  3:
+    item_type: MUSIC_DISC_WARD
+    base_price: 2900
+    price_multiplier: 1.5
+    add_clicks: 20
+  4:
+    item_type: FIREWORK_STAR
+    base_price: 3230
+    price_multiplier: 1.5
+    add_clicks: 22
+  5:
+    item_type: ENDER_EYE
+    base_price: 3560
+    price_multiplier: 1.5
+    add_clicks: 24
+  6:
+    item_type: BLAZE_POWDER
+    base_price: 3890
+    price_multiplier: 1.5
+    add_clicks: 26
+  7:
+    item_type: NETHER_STAR
+    base_price: 4220
+    price_multiplier: 1.5
+    add_clicks: 28
+
+block_design_shop:
+  1:
+    display_name: 'Prismarine'
+    item_type: PRISMARINE
+    block_type: PRISMARINE
+    skull_texture: ''
+    base_price: 100000
+  2:
+    display_name: 'Raw gold'
+    item_type: RAW_GOLD_BLOCK
+    block_type: RAW_GOLD_BLOCK
+    skull_texture: ''
+    base_price: 200000
+  3:
+    display_name: 'Honey block'
+    item_type: HONEY_BLOCK
+    block_type: HONEY_BLOCK
+    skull_texture: ''
+    base_price: 300000
+  4:
+    display_name: 'Dragon egg'
+    item_type: DRAGON_EGG
+    block_type: DRAGON_EGG
+    skull_texture: ''
+    base_price: 400000
+  5:
+    display_name: 'Cactus'
+    item_type: CACTUS
+    block_type: CACTUS
+    skull_texture: ''
+    base_price: 500000
+  6:
+    display_name: 'Cookie head'
+    item_type: PLAYER_HEAD
+    block_type: PLAYER_HEAD
+    skull_texture: 'http://textures.minecraft.net/texture/605ef8819fb6a92148249ff48c3914e92c273e7874523ff7930b9f5cc93ceaae'
+    base_price: 600000
+  7:
+    display_name: 'Player head'
+    item_type: REAL_PLAYER_HEAD
+    block_type: REAL_PLAYER_HEAD
+    skull_texture: ''
+    base_price: 700000
+
+hit_particle_design_shop:
+  1:
+    display_name: 'Growing roots'
+    item_type: WEEPING_VINES
+    colored_dust: false
+    color:
+      red: 0
+      green: 0
+      blue: 0
+    particle_type: COMPOSTER
+    second_particle_type: COMPOSTER
+    animation_type: STAR_BURST
+    base_price: 100000
+  2:
+    display_name: 'Explosion waves'
+    item_type: TNT
+    colored_dust: false
+    color:
+      red: 0
+      green: 0
+      blue: 0
+    particle_type: SMOKE
+    second_particle_type: SMOKE
+    animation_type: EXPLOSION_WAVE
+    base_price: 200000
+  3:
+    display_name: 'Circling rings'
+    item_type: ENDER_PEARL
+    colored_dust: true
+    color:
+      red: 71
+      green: 30
+      blue: 186
+    particle_type: CLOUD
+    second_particle_type: CLOUD
+    animation_type: CIRCLE_RINGS
+    base_price: 300000
+  4:
+    display_name: 'Wind spirals'
+    item_type: WIND_CHARGE
+    colored_dust: false
+    color:
+      red: 0
+      green: 0
+      blue: 0
+    particle_type: CLOUD
+    second_particle_type: CLOUD
+    animation_type: SPIRAL
+    base_price: 400000
+  5:
+    display_name: 'Magical runes'
+    item_type: ENCHANTED_BOOK
+    colored_dust: false
+    color:
+      red: 0
+      green: 0
+      blue: 0
+    particle_type: DRAGON_BREATH
+    second_particle_type: ENCHANT
+    animation_type: MAGICAL_WHIRLWIND
+    base_price: 500000
+
+menu_design_shop:
+  1:
+    display_name: 'Normal glass'
+    item_type: GLASS
+    block_type: GLASS_PANE
+    base_price: 999999
+  2:
+    display_name: 'Black glass'
+    item_type: BLACK_STAINED_GLASS
+    block_type: BLACK_STAINED_GLASS_PANE
+    base_price: 100000
+  3:
+    display_name: 'Gray glass'
+    item_type: GRAY_STAINED_GLASS
+    block_type: GRAY_STAINED_GLASS_PANE
+    base_price: 200000
+  4:
+    display_name: 'Light grey glass'
+    item_type: LIGHT_GRAY_STAINED_GLASS
+    block_type: LIGHT_GRAY_STAINED_GLASS_PANE
+    base_price: 300000
+  5:
+    display_name: 'White glass'
+    item_type: WHITE_STAINED_GLASS
+    block_type: WHITE_STAINED_GLASS_PANE
+    base_price: 400000
+  6:
+    display_name: 'Blue glass'
+    item_type: BLUE_STAINED_GLASS
+    block_type: BLUE_STAINED_GLASS_PANE
+    base_price: 500000
+  7:
+    display_name: 'Light blue glass'
+    item_type: LIGHT_BLUE_STAINED_GLASS
+    block_type: LIGHT_BLUE_STAINED_GLASS_PANE
+    base_price: 600000
+  8:
+    display_name: 'Cyan glass'
+    item_type: CYAN_STAINED_GLASS
+    block_type: CYAN_STAINED_GLASS_PANE
+    base_price: 700000
+  9:
+    display_name: 'Green glass'
+    item_type: GREEN_STAINED_GLASS
+    block_type: GREEN_STAINED_GLASS_PANE
+    base_price: 800000
+  10:
+    display_name: 'Lime glass'
+    item_type: LIME_STAINED_GLASS
+    block_type: LIME_STAINED_GLASS_PANE
+    base_price: 900000
+  11:
+    display_name: 'Brown glass'
+    item_type: BROWN_STAINED_GLASS
+    block_type: BROWN_STAINED_GLASS_PANE
+    base_price: 1000000
+  12:
+    display_name: 'Purple glass'
+    item_type: PURPLE_STAINED_GLASS
+    block_type: PURPLE_STAINED_GLASS_PANE
+    base_price: 1100000
+  13:
+    display_name: 'Magenta glass'
+    item_type: MAGENTA_STAINED_GLASS
+    block_type: MAGENTA_STAINED_GLASS_PANE
+    base_price: 1200000
+  14:
+    display_name: 'Pink glass'
+    item_type: PINK_STAINED_GLASS
+    block_type: PINK_STAINED_GLASS_PANE
+    base_price: 1300000
+  15:
+    display_name: 'Yellow glass'
+    item_type: YELLOW_STAINED_GLASS
+    block_type: YELLOW_STAINED_GLASS_PANE
+    base_price: 1400000
+  16:
+    display_name: 'Orange glass'
+    item_type: ORANGE_STAINED_GLASS
+    block_type: ORANGE_STAINED_GLASS_PANE
+    base_price: 1500000
+  17:
+    display_name: 'Red glass'
+    item_type: RED_STAINED_GLASS
+    block_type: RED_STAINED_GLASS_PANE
+    base_price: 1600000
+
+# Plugin Sounds
+sounds:
+  click_allow:
+    type: 'ENTITY_ITEM_PICKUP'
+    volume: 1.0
+    pitch: 1.0
+  click_deny:
+    type: 'BLOCK_ANVIL_BREAK'
+    volume: 1.0
+    pitch: 1.0
+  open_inventory:
+    type: 'BLOCK_CHEST_OPEN'
+    volume: 1.0
+    pitch: 1.0
+  shop:
+    type: 'BLOCK_NOTE_BLOCK_BASS'
+    volume: 1.0
+    pitch: 1.0
+  design:
+    type: 'BLOCK_NOTE_BLOCK_BASS'
+    volume: 1.0
+    pitch: 1.0
+  select_design:
+    type: 'BLOCK_NOTE_BLOCK_PLING'
+    volume: 1.0
+    pitch: 1.0
+  remove_design:
+    type: 'BLOCK_LAVA_POP'
+    volume: 1.0
+    pitch: 1.0
+  premium_allow:
+    type: 'BLOCK_NOTE_BLOCK_SNARE'
+    volume: 1.0
+    pitch: 1.0
+  premium_deny:
+    type: 'BLOCK_ANVIL_BREAK'
+    volume: 1.0
+    pitch: 1.0
+  buy_allow:
+    type: 'ENTITY_PLAYER_LEVELUP'
+    volume: 1.0
+    pitch: 1.0
+  buy_deny:
+    type: 'BLOCK_ANVIL_BREAK'
+    volume: 1.0
+    pitch: 1.0
+  stats_info:
+    type: 'BLOCK_LAVA_POP'
+    volume: 1.0
+    pitch: 1.0
+  block_design:
+    type: 'BLOCK_NOTE_BLOCK_BASS'
+    volume: 1.0
+    pitch: 1.0
+  hit_particle_design:
+    type: 'BLOCK_NOTE_BLOCK_BASS'
+    volume: 1.0
+    pitch: 1.0
+  menu_design:
+    type: 'BLOCK_NOTE_BLOCK_BASS'
+    volume: 1.0
+    pitch: 1.0
+  next:
+    type: 'BLOCK_NOTE_BLOCK_BASS'
+    volume: 1.0
+    pitch: 1.0
+  back:
+    type: 'ENTITY_ITEM_BREAK'
+    volume: 1.0
+    pitch: 1.0
+  golden_cookie:
+    type: 'BLOCK_AMETHYST_BLOCK_HIT'
+    volume: 1.0
+    pitch: 1.0
+  cookie_explosion:
+    type: 'BLOCK_END_PORTAL_SPAWN'
+    volume: 1.0
+    pitch: 1.0

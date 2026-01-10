@@ -1,0 +1,13 @@
+name: CookieClicker
+version: 5.6
+main: de.zillolp.cookieclicker.CookieClicker
+api-version: 1.19
+load: POSTWORLD
+author: ZilloLP
+website: https://discord.gg/NBs27JK
+commands:
+  cookieclicker:
+    description: Manage CookieClicker
+softdepend:
+  - "Multiverse-Core"
+  - "PlaceholderAPI"

@@ -1,0 +1,96 @@
+# +----------------------------------------------------+
+# <                   CookieClicker                    >
+# +----------------------------------------------------+
+
+# Basic messages
+PREFIX: '&7[&6CookieClicker&7] '
+NO_PERMISSION: '&cYou have no permissions to do this!'
+ONLY_PLAYER: '&cYou have to be a player!'
+UNKNOWN_COMMAND: '&cUse /cookieclicker help.'
+PLAYER_NOT_FOUND: '&cThis player does not exist.'
+
+# Interact messages
+CLICK_MESSAGE: '&3Your cookies &7%>% &e%cookies%'
+COOKIE_COLLECT_MESSAGE: '&3Your cookies &7%>% &e%cookies% &7+ &6%collectedcookies%'
+GOLDEN_COOKIE_COLOR:
+  PRIMARY: '&6'
+  SECONDARY: '&e'
+MAX_CPS: '&cPlease reduce your clickrate!'
+AFK_MESSAGE: '&cPlease move!'
+PLAYER_STATS_INFO:
+  1: '&7-= &eStatistics from &6%player% &7=-'
+  2: '&7Place&8: &e%place%'
+  3: '&7Cookies&8: &e%cookies%'
+  4: '&7Per click&8: &e%perclick%'
+  5: '&7Clicker clicked&8: &e%clickerclicks%'
+  6: '&7--------------------------------'
+
+# Titles
+GOLDEN_COOKIE_TITLE_HEADER: '&6&lGOLDENER COOKIE'
+GOLDEN_COOKIE_TITLE_FOOTER: '&7You will now receive more cookies!'
+COOKIE_EXPLOSION_TITLE_HEADER: '&c&lCOOKIE EXPLOSION'
+COOKIE_EXPLOSION_TITLE_FOOTER: '&7Collect the cookies!'
+
+# Inventory titles
+HOME_TITLE: '&eCookieClicker'
+SHOP_TITLE: '&eCookieClicker | &3Shop'
+PREMIUM_SHOP_TITLE: '&eCookieClicker | &3Premium'
+DESIGN_TITLE: '&eCookieClicker | &3Design'
+BLOCK_DESIGN_TITLE: '&eCookieClicker | &3Clickerblock'
+HIT_PARTICLE_DESIGN_TITLE: '&eCookieClicker | &3Hitparticle'
+MENU_DESIGN_TITLE: '&eCookieClicker | &3Menu'
+
+# Item names
+PER_CLICK: '&3Per click: &e%perclick%'
+YOUR_COOKIES: '&3Your cookies: &e%cookies%'
+SHOP: '&3Shop'
+DESIGN: '&3Design'
+BLOCK_DESIGN: '&3Clickerblock Design'
+HIT_PARTICLE_DESIGN: '&3Hitparticle Design'
+MENU_DESIGN: '&3Menu Design'
+PREMIUM_PAGE: '&3Premium page'
+NEXT: '&cNext'
+BACK: '&cBack'
+
+# Shop
+PRICE_BUYABLE: '&3Price: &a%price%'
+PRICE_NOT_BUYABLE: '&3Price: &c%price%'
+PRICE_INFO:
+  1: ''
+  2: '&3Per click: &e+ %addclick%'
+ITEM_BOUGHT: '&a%!% %displayname%'
+ITEM_BOUGHT_SELECTED: '&b★ %displayname%'
+ITEM_INFO:
+  1: '&7%_>% &e%displayname%'
+ITEM_BOUGHT_INFO:
+  1: ''
+  2: '&7Left click to &bselect'
+ITEM_BOUGHT_SELECTED_INFO:
+  1: ''
+  2: '&7Right click to &cdeactivate'
+MESSAGE_NOT_BUYABLE: '&cYou dont have enough cookies!'
+
+# Design
+DESIGN_GLASS_NAME: '&7*'
+
+# Holograms
+CLICKER_HOLOGRAM:
+  1: '&3%>% &eCookieClicker &3%<%'
+  2: ''
+  3: '&3Right click &7%>% &eOpen inventory'
+  4: '&3Left click &7%>% &eCookieClicker'
+RESET_TIMER: '&7%*% &c%time% &7%*%'
+COLLECTED_COOKIE: '&7+ &6%collectedcookies% Cookies'
+
+# Statswalls
+STATS_WALL:
+  RANK_PREFIX:
+    1: '&e&l#1'
+    2: '&b&l#2'
+    3: '&a&l#3'
+    DEFAULT: '&f&l#%number%'
+  SIGN_LINES:
+    1: '%*% CookieClicker %*%'
+    2: '%place%'
+    3: '%name%'
+    4: '%value% per click'
