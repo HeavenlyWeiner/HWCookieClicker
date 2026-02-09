@@ -62,10 +62,19 @@ public class VersionManager {
 
     public PacketReader getPacketReader() {
         String packagePath = "listener.PacketReader";
-        PacketReader packetReader = (PacketReader) getPackageObject(packagePath, GameVersion.v1_20_R4, plugin);
-        if (versionNumber <= 20 && subVersion < GameVersion.v1_20_R4.getSubVersionNumber()) {
-            packetReader = (PacketReader) getPackageObject(packagePath, GameVersion.v1_20_R1, plugin);
+        PacketReader packetReader = null;
+
+        if (versionNumber == 20) {
+            if (subVersion < GameVersion.v1_20_R4.getSubVersionNumber()) {
+                packetReader = (PacketReader) getPackageObject(packagePath, GameVersion.v1_20_R1, plugin);
+            } else {
+                packetReader = (PacketReader) getPackageObject(packagePath, GameVersion.v1_20_R4, plugin);
+            }
+        } else if (versionNumber == 21) {
+            // Для 1.21.x используем v1_20_R4 как базу (они совместимы)
+            packetReader = (PacketReader) getPackageObject(packagePath, GameVersion.v1_20_R4, plugin);
         }
+
         if (packetReader == null) {
             logger.log(Level.SEVERE, "VersionManager could not find a valid PacketReader implementation for this server version.");
         }
@@ -74,7 +83,8 @@ public class VersionManager {
 
     public ItemBuilder getItemBuilder() {
         String packagePath = "utils.ItemBuilder";
-        ItemBuilder itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_21_R5, plugin);
+        ItemBuilder itemBuilder = null;
+
         if (versionNumber == 20) {
             if (subVersion < GameVersion.v1_20_R4.getSubVersionNumber()) {
                 itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_20_R1, plugin);
@@ -82,12 +92,17 @@ public class VersionManager {
                 itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_20_R4, plugin);
             }
         } else if (versionNumber == 21) {
-            if (subVersion <= GameVersion.v1_21_R3.getSubVersionNumber()) {
+            if (subVersion <= GameVersion.v1_21_R3.getSubVersionNumber()) { // <= 4
                 itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_21_R1, plugin);
-            } else {
+            } else if (subVersion <= GameVersion.v1_21_R5.getSubVersionNumber()) { // <= 8
                 itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_21_R5, plugin);
+            } else if (subVersion <= GameVersion.v1_21_R7.getSubVersionNumber()) { // <= 10
+                itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_21_R7, plugin);
+            } else { // > 10 (включая 11)
+                itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_21_R8, plugin);
             }
         }
+
         if (itemBuilder == null) {
             logger.log(Level.SEVERE, "VersionManager could not find a valid ItemBuilder implementation for this server version.");
         }

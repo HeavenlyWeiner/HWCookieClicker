@@ -56,5 +56,9 @@ public enum PluginLanguage {
     // Holograms
     CLICKER_HOLOGRAM,
     RESET_TIMER,
-    COLLECTED_COOKIE
+    COLLECTED_COOKIE,  // ← ДОБАВИЛ ЗАПЯТУЮ ЗДЕСЬ!
+
+    // Platform Lock
+    PLATFORM_LOCKED_MINECRAFT,
+    PLATFORM_LOCKED_INFO_MINECRAFT
 }

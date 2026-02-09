@@ -12,19 +12,15 @@
     </parent>
 
     <properties>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
-        <directory>../target</directory>
-        <finalName>${project.parent.name}-${project.parent.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.5.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -32,15 +28,9 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>de.zillolp:*</include>
-                                    <include>com.zaxxer:HikariCP</include>
-                                </includes>
-                            </artifactSet>
+                            <finalName>CookieClicker-${project.version}</finalName>
                             <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>de.zillolp.cookieclicker.CookieClicker</mainClass>
                                 </transformer>
                             </transformers>
@@ -63,61 +53,6 @@
         <dependency>
             <groupId>de.zillolp</groupId>
             <artifactId>cookieclicker-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_21_R8</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_21_R7</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_21_R5</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_21_R4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_21_R3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_21_R2</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_21_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_20_R4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_20_R3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_20_R2</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.zillolp</groupId>
-            <artifactId>spigot_1_20_R1</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

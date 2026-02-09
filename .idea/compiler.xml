@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cookieclicker-core" />
+        <module name="cookieclicker-dist" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="spigot_1_20_R1" target="1.8" />
+      <module name="spigot_1_20_R2" target="1.8" />
+      <module name="spigot_1_20_R3" target="1.8" />
+      <module name="spigot_1_20_R4" target="1.8" />
+      <module name="spigot_1_21_R1" target="1.8" />
+      <module name="spigot_1_21_R2" target="1.8" />
+      <module name="spigot_1_21_R3" target="1.8" />
+      <module name="spigot_1_21_R4" target="1.8" />
+      <module name="spigot_1_21_R5" target="1.8" />
+      <module name="spigot_1_21_R7" target="1.8" />
+      <module name="spigot_1_21_R8" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

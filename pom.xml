@@ -8,23 +8,15 @@
     <artifactId>cookieclicker-parent</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>CookieClicker Core</module>
         <module>CookieClicker Distribution</module>
-        <module>spigot_1_20_R1</module>
-        <module>spigot_1_20_R2</module>
-        <module>spigot_1_20_R4</module>
-        <module>spigot_1_21_R1</module>
-        <module>spigot_1_21_R3</module>
-        <module>spigot_1_21_R4</module>
-        <module>spigot_1_21_R5</module>
-        <module>spigot_1_21_R7</module>
-        <module>spigot_1_21_R8</module>
-        <module>spigot_1_20_R3</module>
-        <module>spigot_1_21_R2</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 </project>

@@ -8,6 +8,7 @@ import de.zillolp.cookieclicker.config.customconfigs.*;
 import de.zillolp.cookieclicker.custominventories.CustomInventory;
 import de.zillolp.cookieclicker.database.DatabaseConnector;
 import de.zillolp.cookieclicker.database.DatabaseManager;
+import de.zillolp.cookieclicker.database.PostgreSQLConnector;
 import de.zillolp.cookieclicker.enums.CustomInventoryType;
 import de.zillolp.cookieclicker.handler.ClickerHandler;
 import de.zillolp.cookieclicker.interfaces.ItemBuilder;
@@ -56,6 +57,8 @@ public class CookieClicker extends JavaPlugin {
     private PacketReader packetReader;
     private StatsWallUpdater statsWallUpdater;
     private ResetTimerUpdater resetTimerUpdater;
+    private PostgreSQLConnector postgreSQLConnector;
+    private PlatformLockManager platformLockManager;
 
     @Override
     public void onEnable() {
@@ -77,13 +80,34 @@ public class CookieClicker extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if ((!(versionManager.checkVersion())) || (!(databaseConnector.hasConnection()))) {
+        if (!(versionManager.checkVersion())) {
             return;
         }
+
+        // Проверяем какой коннектор используется
+        FileConfiguration mysqlConfiguration = mySQLConfig.getFileConfiguration();
+        String type = mysqlConfiguration.getString("Type", "mysql");
+
+        if (type.equalsIgnoreCase("postgresql")) {
+            if (postgreSQLConnector == null || !postgreSQLConnector.isConnected()) {
+                return;
+            }
+        } else {
+            if (databaseConnector == null || !databaseConnector.hasConnection()) {
+                return;
+            }
+        }
+
         stopUpdaters();
         closeInventories();
         unloadPlayers();
-        databaseConnector.close();
+
+        if (databaseConnector != null) {
+            databaseConnector.close();
+        }
+        if (postgreSQLConnector != null) {
+            postgreSQLConnector.close();
+        }
     }
 
     private void registerConfigs() {
@@ -97,11 +121,22 @@ public class CookieClicker extends JavaPlugin {
 
     private void connectDatabase() {
         FileConfiguration mysqlConfiguration = mySQLConfig.getFileConfiguration();
+        String type = mysqlConfiguration.getString("Type", "mysql");
         String serverName = mysqlConfiguration.getString("Host", "localhost");
-        String port = mysqlConfiguration.getString("Port", "25565");
+        String port = mysqlConfiguration.getString("Port", "3306");
         String databaseName = mysqlConfiguration.getString("Database", "cookieclicker");
         String user = mysqlConfiguration.getString("User", "root");
         String password = mysqlConfiguration.getString("Password", "123+");
+
+        // Используем новый PostgreSQLConnector если Type = postgresql
+        if (type.equalsIgnoreCase("postgresql")) {
+            getLogger().info("Using PostgreSQL connector...");
+            postgreSQLConnector = new PostgreSQLConnector(this);
+            postgreSQLConnector.connect();
+            return;
+        }
+
+        // Для MySQL используем старый DatabaseConnector
         databaseConnector = new DatabaseConnector(this, pluginConfig.getFileConfiguration().getBoolean("MySQL", false), "cookieclicker", serverName, port, databaseName, user, password);
     }
 
@@ -110,18 +145,37 @@ public class CookieClicker extends JavaPlugin {
         versionManager = new VersionManager(this);
         boolean isConnected = false;
         boolean isVersion = versionManager.checkVersion();
+
         if (!(isVersion)) {
             for (String wrongVersionMessage : versionManager.getWrongVersionMessage()) {
                 logger.warning(wrongVersionMessage);
             }
         } else {
             connectDatabase();
-            isConnected = databaseConnector.hasConnection();
+
+            // Проверяем тип подключения
+            FileConfiguration mysqlConfiguration = mySQLConfig.getFileConfiguration();
+            String type = mysqlConfiguration.getString("Type", "mysql");
+
+            if (type.equalsIgnoreCase("postgresql")) {
+                // Для PostgreSQL проверяем postgreSQLConnector
+                isConnected = postgreSQLConnector != null && postgreSQLConnector.isConnected();
+            } else {
+                // Для MySQL используем старый databaseConnector
+                isConnected = databaseConnector != null && databaseConnector.hasConnection();
+            }
+
             if (!(isConnected)) {
                 logger.log(Level.SEVERE, "Could not connect to Database!");
-                databaseConnector.close();
+                if (databaseConnector != null) {
+                    databaseConnector.close();
+                }
+                if (postgreSQLConnector != null) {
+                    postgreSQLConnector.close();
+                }
             }
         }
+
         boolean isCompatible = isVersion && isConnected;
         if (!(isCompatible)) {
             CookieClickerCommand cookieClickerCommand = new CookieClickerCommand(this);
@@ -141,6 +195,7 @@ public class CookieClicker extends JavaPlugin {
         designManager = new DesignManager(this);
         soundManager = new SoundManager(this);
         clickerEventManager = new ClickerEventManager();
+        platformLockManager = new PlatformLockManager(this);
     }
 
     private void registerCommands() {
@@ -198,6 +253,7 @@ public class CookieClicker extends JavaPlugin {
         customUpdaters.add(new EventUpdater(this));
         customUpdaters.add(statsWallUpdater);
         customUpdaters.add(resetTimerUpdater);
+        customUpdaters.add(new PlatformLockUpdater(this));
     }
 
     private void registerMetrics() {
@@ -220,7 +276,6 @@ public class CookieClicker extends JavaPlugin {
             return valueMap;
         }));
     }
-
 
     private void stopUpdaters() {
         for (CustomUpdater customUpdater : customUpdaters) {
@@ -271,6 +326,14 @@ public class CookieClicker extends JavaPlugin {
 
     public DatabaseConnector getDatabaseConnector() {
         return databaseConnector;
+    }
+
+    public PostgreSQLConnector getPostgreSQLConnector() {
+        return postgreSQLConnector;
+    }
+
+    public PlatformLockManager getPlatformLockManager() {
+        return platformLockManager;
     }
 
     public ConfigManager getConfigManager() {

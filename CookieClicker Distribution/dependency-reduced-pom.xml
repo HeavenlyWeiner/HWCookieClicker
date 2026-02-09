@@ -8,12 +8,10 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cookieclicker-dist</artifactId>
   <build>
-    <directory>../target</directory>
-    <finalName>${project.parent.name}-${project.parent.version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.6.0</version>
+        <version>3.5.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -21,12 +19,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <artifactSet>
-                <includes>
-                  <include>de.zillolp:*</include>
-                  <include>com.zaxxer:HikariCP</include>
-                </includes>
-              </artifactSet>
+              <finalName>CookieClicker-${project.version}</finalName>
               <transformers>
                 <transformer>
                   <mainClass>de.zillolp.cookieclicker.CookieClicker</mainClass>
@@ -40,7 +33,6 @@
                   </excludes>
                 </filter>
               </filters>
-              <outputFile>C:\Development\CookieClicker\CookieClicker Premium\plugins\CookieClicker.jar</outputFile>
             </configuration>
           </execution>
         </executions>
@@ -49,7 +41,5 @@
   </build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>22</maven.compiler.source>
   </properties>
 </project>

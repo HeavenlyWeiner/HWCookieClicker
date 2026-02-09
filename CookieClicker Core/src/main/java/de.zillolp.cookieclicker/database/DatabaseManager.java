@@ -1,6 +1,7 @@
 package de.zillolp.cookieclicker.database;
 
 import de.zillolp.cookieclicker.CookieClicker;
+import de.zillolp.cookieclicker.config.customconfigs.MySQLConfig;
 import de.zillolp.cookieclicker.config.customconfigs.PluginConfig;
 import de.zillolp.cookieclicker.enums.ShopType;
 import de.zillolp.cookieclicker.manager.ClickerPlayerManager;
@@ -24,6 +25,8 @@ public class DatabaseManager {
     private final Logger logger;
     private final PluginConfig pluginConfig;
     private final DatabaseConnector databaseConnector;
+    private final PostgreSQLConnector postgreSQLConnector;
+    private final boolean usePostgreSQL;
     private final String playersTable = "cookieclicker_players";
     private final String shopsTable = "cookieclicker_shops";
 
@@ -31,12 +34,31 @@ public class DatabaseManager {
         this.plugin = plugin;
         logger = plugin.getLogger();
         pluginConfig = plugin.getPluginConfig();
-        databaseConnector = plugin.getDatabaseConnector();
+        this.databaseConnector = plugin.getDatabaseConnector();
+        this.postgreSQLConnector = plugin.getPostgreSQLConnector();
+
+        // Определяем тип БД
+        MySQLConfig mySQLConfig = plugin.getConfigManager().getMySQLConfig();
+        FileConfiguration config = mySQLConfig.getFileConfiguration();
+        String type = config.getString("Type", "mysql");
+        this.usePostgreSQL = type.equalsIgnoreCase("postgresql");
+
         initialize();
     }
 
+    /**
+     * Получает Connection в зависимости от типа БД
+     */
+    private Connection getConnection() throws SQLException {
+        if (usePostgreSQL) {
+            return postgreSQLConnector.getConnection();
+        } else {
+            return databaseConnector.getConnection();
+        }
+    }
+
     private void initialize() {
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + playersTable +
                      "(UUID VARCHAR(64) NOT NULL, NAME VARCHAR(64) NOT NULL, COOKIES BIGINT DEFAULT 0, PER_CLICK BIGINT DEFAULT 0, CLICKER_CLICKS  BIGINT DEFAULT 0," +
                      " BLOCK_DESIGN  BIGINT DEFAULT 0, PARTICLE_DESIGN  BIGINT DEFAULT 0, MENU_DESIGN  BIGINT DEFAULT 0, PRIMARY KEY (UUID))");
@@ -59,7 +81,7 @@ public class DatabaseManager {
 
     private boolean playerExists(String field, String input) {
         boolean isExisting = false;
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT " + field + " FROM " + playersTable + " WHERE LOWER(" + field + ")= LOWER(?)")) {
             preparedStatement.setString(1, input);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -72,7 +94,7 @@ public class DatabaseManager {
     }
 
     public void loadProfiles() {
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT UUID FROM " + playersTable)) {
             ClickerPlayerManager clickerPlayerManager = plugin.getClickerPlayerManager();
             if (clickerPlayerManager == null) {
@@ -94,7 +116,7 @@ public class DatabaseManager {
     }
 
     public void loadClickerStatsProfile(ClickerStatsProfile clickerStatsProfile, boolean isOffline) {
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT NAME, COOKIES, PER_CLICK, CLICKER_CLICKS, BLOCK_DESIGN, PARTICLE_DESIGN, MENU_DESIGN FROM " + playersTable + " WHERE UUID= ?")) {
             UUID uuid = clickerStatsProfile.getUuid();
             preparedStatement.setString(1, uuid.toString());
@@ -123,7 +145,7 @@ public class DatabaseManager {
         HashMap<ShopType, HashMap<Integer, Boolean>> shopItems = clickerStatsProfile.getShopItems();
         FileConfiguration fileConfiguration = pluginConfig.getFileConfiguration();
 
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT ID, ITEMS_PURCHASED, SHOP_ID FROM " + shopsTable + " WHERE UUID= ?")) {
             preparedStatement.setString(1, clickerStatsProfile.getUuid().toString());
 
@@ -197,7 +219,7 @@ public class DatabaseManager {
         if (clickerStatsProfile == null) {
             return;
         }
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("REPLACE INTO " + playersTable + "(UUID, NAME, COOKIES, PER_CLICK, CLICKER_CLICKS, BLOCK_DESIGN, PARTICLE_DESIGN, MENU_DESIGN) VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
             preparedStatement.setString(1, clickerStatsProfile.getUuid().toString());
             preparedStatement.setString(2, clickerStatsProfile.getName());
@@ -217,7 +239,7 @@ public class DatabaseManager {
     }
 
     private void savePlayerPrices(ClickerStatsProfile clickerStatsProfile) {
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("REPLACE INTO " + shopsTable + "(UUID, SHOP_ID, ID, ITEMS_PURCHASED) VALUES (?, ?, ?, ?);")) {
             preparedStatement.setString(1, clickerStatsProfile.getUuid().toString());
             int batchCount = 0;
@@ -248,7 +270,7 @@ public class DatabaseManager {
     }
 
     public Optional<UUID> getUUIDbyName(String name) {
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT UUID FROM " + playersTable + " WHERE LOWER(NAME)= LOWER(?)")) {
             preparedStatement.setString(1, name);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -264,7 +286,7 @@ public class DatabaseManager {
 
     public int getRegisteredPlayerAmount() {
         int amount = 0;
-        try (Connection connection = databaseConnector.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS player_count FROM " + playersTable)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
