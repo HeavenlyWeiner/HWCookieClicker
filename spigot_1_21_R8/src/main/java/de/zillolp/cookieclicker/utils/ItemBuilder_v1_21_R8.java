@@ -77,13 +77,28 @@ public class ItemBuilder_v1_21_R8 implements ItemBuilder {
             }
             itemMeta.addAttributeModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey("cookieclicker", "generic_attack_damage"), 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.HAND));
         }
-        if ((textureURL != null) && (material == Material.PLAYER_HEAD)) {
-            try {
+        if (material == Material.PLAYER_HEAD && itemMeta instanceof SkullMeta) {
+            if (textureURL != null) {
+                String url;
+                if (textureURL.contains("http://textures.minecraft.net/texture/")) {
+                    url = textureURL;
+                } else {
+                    url = "http://textures.minecraft.net/texture/" + textureURL;
+                }
                 SkullMeta skullMeta = (SkullMeta) itemMeta;
-                skullMeta.setOwnerProfile(reflectionUtil.getPlayerProfile(textureURL, playerProfile));
-            } catch (Exception exception) {
-                logger.log(Level.SEVERE, "Error creating custom skull", exception);
+                reflectionUtil.getPlayerProfile(url, "").thenAccept(textureProfile -> {
+                    skullMeta.setOwnerProfile(textureProfile);
+                    itemStack.setItemMeta(skullMeta);
+                }).exceptionally(throwable -> {
+                    logger.log(Level.SEVERE, "Failed to load PlayerProfile for URL: " + url, throwable);
+                    return null;
+                });
+            } else if (playerProfile != null) {
+                SkullMeta skullMeta = (SkullMeta) itemMeta;
+                skullMeta.setOwnerProfile(playerProfile);
+                itemStack.setItemMeta(skullMeta);
             }
+            return itemStack;
         }
         itemStack.setItemMeta(itemMeta);
         return itemStack;

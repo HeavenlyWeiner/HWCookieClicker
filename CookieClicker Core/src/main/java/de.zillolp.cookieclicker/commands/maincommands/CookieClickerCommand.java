@@ -29,7 +29,10 @@ public class CookieClickerCommand extends MainCommand {
             }
             return true;
         }
-        if (!(plugin.getDatabaseConnector().hasConnection())) {
+        boolean isDbConnected = plugin.getPostgreSQLConnector() != null
+                ? plugin.getPostgreSQLConnector().isConnected()
+                : plugin.getDatabaseConnector() != null && plugin.getDatabaseConnector().hasConnection();
+        if (!isDbConnected) {
             commandSender.sendMessage(PREFIX + "§cThe plugin isn't connected to the database!");
             return true;
         }

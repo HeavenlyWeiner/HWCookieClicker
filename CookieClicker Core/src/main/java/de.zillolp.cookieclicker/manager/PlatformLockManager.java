@@ -69,32 +69,23 @@ public class PlatformLockManager {
 
         scheduler.runTaskAsynchronously(plugin, () -> {
             try (Connection conn = postgreSQLConnector.getConnection();
-                 CallableStatement stmt = conn.prepareCall("{ ? = call try_start_clicking(?, ?) }")) {
+                 PreparedStatement stmt = conn.prepareStatement(
+                         "SELECT can_click, blocked_by FROM try_start_clicking(?::uuid, 'minecraft')")) {
 
-                stmt.registerOutParameter(1, Types.OTHER);
-                stmt.setObject(2, playerUUID);
-                stmt.setString(3, "minecraft");
-                stmt.execute();
-
-                Object result = stmt.getObject(1);
-                if (result != null) {
-                    String resultStr = result.toString();
-                    // Парсим результат типа "(t,)" или "(f,telegram)"
-                    boolean canClick = resultStr.contains("t");
-                    String blockedBy = null;
-
-                    if (!canClick && resultStr.contains("telegram")) {
-                        blockedBy = "telegram";
+                stmt.setString(1, playerUUID.toString());
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        boolean canClick = rs.getBoolean("can_click");
+                        String blockedBy = rs.getString("blocked_by");
+                        future.complete(new PlatformLockResult(canClick, blockedBy));
+                    } else {
+                        future.complete(new PlatformLockResult(true, null));
                     }
-
-                    future.complete(new PlatformLockResult(canClick, blockedBy));
-                } else {
-                    future.complete(new PlatformLockResult(true, null));
                 }
 
             } catch (SQLException e) {
                 plugin.getLogger().log(Level.WARNING, "Failed to check platform lock for " + playerUUID, e);
-                future.complete(new PlatformLockResult(true, null)); // В случае ошибки разрешаем клик
+                future.complete(new PlatformLockResult(true, null));
             }
         });
 
@@ -115,10 +106,11 @@ public class PlatformLockManager {
 
         scheduler.runTaskAsynchronously(plugin, () -> {
             try (Connection conn = postgreSQLConnector.getConnection();
-                 CallableStatement stmt = conn.prepareCall("{ call unlock_platform(?) }")) {
+                 PreparedStatement stmt = conn.prepareStatement(
+                         "SELECT unlock_platform(?::uuid)")) {
 
-                stmt.setObject(1, playerUUID);
-                stmt.execute();
+                stmt.setString(1, playerUUID.toString());
+                stmt.executeQuery();
                 future.complete(true);
 
             } catch (SQLException e) {
@@ -143,13 +135,12 @@ public class PlatformLockManager {
 
         scheduler.runTaskAsynchronously(plugin, () -> {
             try (Connection conn = postgreSQLConnector.getConnection();
-                 CallableStatement stmt = conn.prepareCall("{ ? = call cleanup_old_locks() }")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT cleanup_old_locks()")) {
 
-                stmt.registerOutParameter(1, Types.INTEGER);
-                stmt.execute();
-
-                int unlockedCount = stmt.getInt(1);
-                future.complete(unlockedCount);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    int unlockedCount = rs.next() ? rs.getInt(1) : 0;
+                    future.complete(unlockedCount);
+                }
 
             } catch (SQLException e) {
                 plugin.getLogger().log(Level.WARNING, "Failed to cleanup old locks", e);

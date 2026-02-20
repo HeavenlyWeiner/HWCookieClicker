@@ -219,8 +219,13 @@ public class DatabaseManager {
         if (clickerStatsProfile == null) {
             return;
         }
+        String upsertSql = usePostgreSQL
+                ? "INSERT INTO " + playersTable + " (UUID, NAME, COOKIES, PER_CLICK, CLICKER_CLICKS, BLOCK_DESIGN, PARTICLE_DESIGN, MENU_DESIGN) VALUES (?, ?, ?, ?, ?, ?, ?, ?)" +
+                  " ON CONFLICT (UUID) DO UPDATE SET NAME=EXCLUDED.NAME, COOKIES=EXCLUDED.COOKIES, PER_CLICK=EXCLUDED.PER_CLICK," +
+                  " CLICKER_CLICKS=EXCLUDED.CLICKER_CLICKS, BLOCK_DESIGN=EXCLUDED.BLOCK_DESIGN, PARTICLE_DESIGN=EXCLUDED.PARTICLE_DESIGN, MENU_DESIGN=EXCLUDED.MENU_DESIGN"
+                : "REPLACE INTO " + playersTable + " (UUID, NAME, COOKIES, PER_CLICK, CLICKER_CLICKS, BLOCK_DESIGN, PARTICLE_DESIGN, MENU_DESIGN) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("REPLACE INTO " + playersTable + "(UUID, NAME, COOKIES, PER_CLICK, CLICKER_CLICKS, BLOCK_DESIGN, PARTICLE_DESIGN, MENU_DESIGN) VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
+             PreparedStatement preparedStatement = connection.prepareStatement(upsertSql)) {
             preparedStatement.setString(1, clickerStatsProfile.getUuid().toString());
             preparedStatement.setString(2, clickerStatsProfile.getName());
             preparedStatement.setLong(3, clickerStatsProfile.getCookies());
@@ -239,8 +244,12 @@ public class DatabaseManager {
     }
 
     private void savePlayerPrices(ClickerStatsProfile clickerStatsProfile) {
+        String upsertSql = usePostgreSQL
+                ? "INSERT INTO " + shopsTable + " (UUID, SHOP_ID, ID, ITEMS_PURCHASED) VALUES (?, ?, ?, ?)" +
+                  " ON CONFLICT (UUID, SHOP_ID, ID) DO UPDATE SET ITEMS_PURCHASED=EXCLUDED.ITEMS_PURCHASED"
+                : "REPLACE INTO " + shopsTable + " (UUID, SHOP_ID, ID, ITEMS_PURCHASED) VALUES (?, ?, ?, ?)";
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("REPLACE INTO " + shopsTable + "(UUID, SHOP_ID, ID, ITEMS_PURCHASED) VALUES (?, ?, ?, ?);")) {
+             PreparedStatement preparedStatement = connection.prepareStatement(upsertSql)) {
             preparedStatement.setString(1, clickerStatsProfile.getUuid().toString());
             int batchCount = 0;
             for (Map.Entry<ShopType, HashMap<Integer, Long>> shopEntry : clickerStatsProfile.getShopPrices().entrySet()) {

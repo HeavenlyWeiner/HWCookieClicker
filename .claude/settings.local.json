@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mvn clean package:*)",
+      "Bash(cmd /c \"where mvn 2>&1\")",
+      "Bash(cmd /c \"where mvn\")",
+      "Bash(cmd /c \"mvn --version\")",
+      "Bash(cmd /c \"dir C:\\\\ /s /b 2>nul | findstr /i mvn.cmd\")",
+      "Bash(powershell:*)",
+      "Bash(cmd /c:*)",
+      "Bash(\"C:\\\\BuildTools\\\\apache-maven-3.9.6\\\\bin\\\\mvn.cmd\" clean package -pl \"CookieClicker Core,spigot_1_21_R8,CookieClicker Distribution\" -am)"
+    ]
+  }
+}

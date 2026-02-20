@@ -71,12 +71,11 @@ public class VersionManager {
                 packetReader = (PacketReader) getPackageObject(packagePath, GameVersion.v1_20_R4, plugin);
             }
         } else if (versionNumber == 21) {
-            // Для 1.21.x используем v1_20_R4 как базу (они совместимы)
-            packetReader = (PacketReader) getPackageObject(packagePath, GameVersion.v1_20_R4, plugin);
+            packetReader = (PacketReader) getPackageObject(packagePath, GameVersion.v1_21_R8, plugin);
         }
 
         if (packetReader == null) {
-            logger.log(Level.SEVERE, "VersionManager could not find a valid PacketReader implementation for this server version.");
+            logger.log(Level.WARNING, "VersionManager could not find PacketReader implementation");
         }
         return packetReader;
     }
@@ -92,26 +91,24 @@ public class VersionManager {
                 itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_20_R4, plugin);
             }
         } else if (versionNumber == 21) {
-            if (subVersion <= GameVersion.v1_21_R3.getSubVersionNumber()) { // <= 4
+            if (subVersion <= GameVersion.v1_21_R1.getSubVersionNumber()) {
                 itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_21_R1, plugin);
-            } else if (subVersion <= GameVersion.v1_21_R5.getSubVersionNumber()) { // <= 8
+            } else if (subVersion <= GameVersion.v1_21_R5.getSubVersionNumber()) {
                 itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_21_R5, plugin);
-            } else if (subVersion <= GameVersion.v1_21_R7.getSubVersionNumber()) { // <= 10
-                itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_21_R7, plugin);
-            } else { // > 10 (включая 11)
+            } else {
                 itemBuilder = (ItemBuilder) getPackageObject(packagePath, GameVersion.v1_21_R8, plugin);
             }
         }
 
         if (itemBuilder == null) {
-            logger.log(Level.SEVERE, "VersionManager could not find a valid ItemBuilder implementation for this server version.");
+            logger.log(Level.WARNING, "VersionManager could not find ItemBuilder implementation, using fallback");
         }
         return itemBuilder;
     }
 
     public Hologram getHologram(String line) {
         String packagePath = "holograms.Hologram";
-        Hologram hologram = (Hologram) getPackageObject(packagePath, GameVersion.v1_21_R5, plugin, line);
+        Hologram hologram = null;
         switch (versionNumber) {
             case 20:
                 if (subVersion <= GameVersion.v1_20_R1.getSubVersionNumber()) {

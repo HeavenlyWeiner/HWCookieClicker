@@ -466,15 +466,18 @@ public class ReflectionUtil {
                 } finally {
                     apiRateLimiter.release();
                 }
+            } catch (java.net.UnknownHostException exception) {
+                logger.log(Level.WARNING, "Cannot reach skin API (offline mode / no internet) for player: " + playerName);
+                completableFuture.complete(null);
             } catch (IOException exception) {
                 if (exception.getMessage() != null && exception.getMessage().contains("404")) {
                     completableFuture.complete(null);
                 } else {
-                    logger.log(Level.SEVERE, "Error getting TextureURL for player: " + playerName, exception);
+                    logger.log(Level.WARNING, "Error getting TextureURL for player: " + playerName + " - " + exception.getMessage());
                     completableFuture.complete(null);
                 }
             } catch (Exception exception) {
-                logger.log(Level.SEVERE, "Error getting TextureURL for player: " + playerName, exception);
+                logger.log(Level.WARNING, "Error getting TextureURL for player: " + playerName + " - " + exception.getMessage());
                 completableFuture.complete(null);
             }
         });

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CookieClicker Core/cookieclicker-core.iml" filepath="$PROJECT_DIR$/CookieClicker Core/cookieclicker-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spigot_1_21_R8/spigot_1_21_R8.iml" filepath="$PROJECT_DIR$/spigot_1_21_R8/spigot_1_21_R8.iml" />
     </modules>
   </component>
 </project>

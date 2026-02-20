@@ -8,6 +8,7 @@ website: https://discord.gg/NBs27JK
 commands:
   cookieclicker:
     description: Manage CookieClicker
+    aliases: [cc]
 softdepend:
   - "Multiverse-Core"
   - "PlaceholderAPI"

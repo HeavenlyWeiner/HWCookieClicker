@@ -55,6 +55,11 @@
             <artifactId>cookieclicker-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.zillolp</groupId>
+            <artifactId>spigot_1_21_R8</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

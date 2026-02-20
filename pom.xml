@@ -11,6 +11,7 @@
 
     <modules>
         <module>CookieClicker Core</module>
+        <module>spigot_1_21_R8</module>
         <module>CookieClicker Distribution</module>
     </modules>
 

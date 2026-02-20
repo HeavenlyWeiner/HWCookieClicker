@@ -35,7 +35,9 @@ public class ClickerListener implements Listener {
             return;
         }
         Location location = block.getLocation();
-        if (!(plugin.getCookieClickerManager().getClickerLocations().contains(location))) {
+        boolean isClickerBlock = plugin.getCookieClickerManager().getClickerLocations().stream()
+                .anyMatch(l -> reflectionUtil.isSameLocation(l, location));
+        if (!isClickerBlock) {
             return;
         }
         CookieClickerInteractEvent cookieClickerInteractEvent = new CookieClickerInteractEvent(event.getPlayer(), location, CookieClickerInteractEvent.InteractType.LEFT_CLICK_BREAK, false);
